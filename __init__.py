@@ -5,22 +5,21 @@ from anki import version
 
 search_regex = re.compile(r'\blen\s?\((.+?)\)\s*(<=|>=|=|==|<|>|!=|)\s*(\d+)\b')
 
-def createSearchString(sfield: str, soperator : str, n: int) -> str:   
-    s = ''
-    if soperator == "=" or soperator == "==":
-        s = '{}:{}'.format(sfield, "_" * n)
-    elif soperator == ">":
-        s = '{}:{}*'.format(sfield, "_" * (n+1))
-    elif soperator == ">=":
-        s = '{}:{}*'.format(sfield, "_" * n)
-    elif soperator == "<":
-        s = '-{}:{}*'.format(sfield, "_" * n)
-    elif soperator == "<=":
-        s = '-{}:{}*'.format(sfield, "_" * (n+1))
-    elif soperator == "!=":
-        s = '-{}:{}'.format(sfield, "_" * n)
+def createSearchString(field: str, operator : str, n: int) -> str:   
+    if operator == "=" or operator == "==":
+        return '{}:{}'.format(field, "_" * n)
+    elif operator == ">":
+        return '{}:{}*'.format(field, "_" * (n+1))
+    elif operator == ">=":
+        return '{}:{}*'.format(field, "_" * n)
+    elif operator == "<":
+        return '-{}:{}*'.format(field, "_" * n)
+    elif operator == "<=":
+        return '-{}:{}*'.format(field, "_" * (n+1))
+    elif operator == "!=":
+        return '-{}:{}'.format(field, "_" * n)
                       
-    return s   
+    return ""   
     
 def len_browser_will_search(context: SearchContext) -> None:
     check = context.ids if version >= "2.1.45" else context.card_ids
